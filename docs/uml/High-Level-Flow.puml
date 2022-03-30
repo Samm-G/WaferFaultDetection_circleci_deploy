@@ -1,0 +1,58 @@
+@startuml Flow
+!theme materia
+skinparam defaultFontName Verdana
+' (Alt+D to Preview in VSCode..)
+
+/'
+Check out:
+
+https://github.com/conda/conda/tree/master/docs/source/umls
+https://github.com/plantuml-stdlib/C4-PlantUML 
+
+Full Docs:
+https://plantuml.com/
+for more examples
+
+'/
+
+' TODO: LATER EMBED THIS DIAGRAM IN RST..
+' Check Conda Docs, How they have done this..
+
+left to right direction
+
+title High Level Flow
+
+' skinparam sequenceMessageAlign center
+' Alice -> Bob : Hi
+' Bob -> Alice : This is very long
+/'
+(Code) -> (Local System)
+(Code) -> (Github)
+(Github) -> (CircleCI)
+(CircleCI) -> (Heroku) : Yaml-File
+'/
+'left to right direction
+'top to bottom direction
+
+
+
+rectangle Code
+rectangle "Local System" as Local_System
+rectangle Github
+rectangle CircleCI
+rectangle Heroku
+
+Code --> Local_System
+Code --> Github
+Github --> CircleCI : Github_Actions
+CircleCI --> Heroku : Yaml_File
+
+/'
+' Class..
+class Example {
+  Sam, Hii   
+}
+'/
+
+
+@enduml

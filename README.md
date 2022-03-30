@@ -215,8 +215,15 @@ git push
 ```
 
 
-## #docker login -u $DOCKERHUB_USER -p $DOCKER_HUB_PASSWORD_USER docker.io
+## Docker Login:
+```
+docker login -u $DOCKERHUB_USER -p $DOCKER_HUB_PASSWORD_USER docker.io
+```
 
+## Remove Py-Cache:
+```
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+```
     
     
     
