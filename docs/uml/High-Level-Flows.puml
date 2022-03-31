@@ -40,14 +40,17 @@ rectangle Code
 rectangle "Local System" as Local_System
 rectangle Github
 rectangle CircleCI_Machine
+rectangle "Docker Hub" as Docker_Hub
 rectangle Heroku
+
 
 Code --> Local_System : Main.py
 Code --> Local_System : Docker-Run
 Code --> Github : Git Push
-Github --> CircleCI_Machine : Github_Actions
+Github --> CircleCI_Machine : Push : Fetched By CircleCI
 CircleCI_Machine --> CircleCI_Machine : Dockerize
-CircleCI_Machine --> Heroku : Yaml_File
+CircleCI_Machine --> Docker_Hub : Docker Image
+CircleCI_Machine --> Heroku : Docker Image
 
 /'
 ' Class..
