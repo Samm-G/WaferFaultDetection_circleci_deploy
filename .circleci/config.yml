@@ -1,11 +1,11 @@
 version: 2.1
 orbs:
-  heroku: cimg/heroku@1.0.1
+  heroku: circleci/heroku@1.0.1
 jobs:
   build-and-test:
     executor: heroku/default
     docker:
-      - image: cimg/python:3.6.2-stretch-browsers # Spin up env from this Image.
+      - image: circleci/python:3.6.2-stretch-browsers # Spin up env from this Image.
         auth: # This is not used yet..
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
