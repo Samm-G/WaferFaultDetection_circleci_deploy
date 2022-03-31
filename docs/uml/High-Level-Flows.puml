@@ -20,7 +20,7 @@ for more examples
 
 left to right direction
 
-title High Level Flow
+title High Level Flows
 
 ' skinparam sequenceMessageAlign center
 ' Alice -> Bob : Hi
@@ -39,13 +39,15 @@ title High Level Flow
 rectangle Code
 rectangle "Local System" as Local_System
 rectangle Github
-rectangle CircleCI
+rectangle CircleCI_Machine
 rectangle Heroku
 
-Code --> Local_System
-Code --> Github
-Github --> CircleCI : Github_Actions
-CircleCI --> Heroku : Yaml_File
+Code --> Local_System : Main.py
+Code --> Local_System : Docker-Run
+Code --> Github : Git Push
+Github --> CircleCI_Machine : Github_Actions
+CircleCI_Machine --> CircleCI_Machine : Dockerize
+CircleCI_Machine --> Heroku : Yaml_File
 
 /'
 ' Class..

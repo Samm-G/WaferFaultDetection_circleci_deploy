@@ -1,6 +1,6 @@
-## Wafer Fault Detection
+# Wafer Fault Detection
 
-#### Problem Statement:
+## Problem Statement
     
     Wafer (In electronics), also called a slice or substrate, is a thin slice of semiconductor,
     such as a crystalline silicon (c-Si), used for fabricationof integrated circuits and in photovoltaics,
@@ -74,6 +74,64 @@
      Clustering: KMeans algorithm is used to create clusters in the preprocessed data. The optimum number of clusters 
      is selected
 
+# Local Development Setup
+
+## Clone this Git.
+```
+git clone https://github.com/Samm-G/WaferFaultDetection_circleci_deploy.git
+```
+
+## Create Conda Environment.
+(Git Bash in project folder)
+```
+conda create -p <path_of_new_conda-venv> python==3.6.9 -y
+```
+(Open CMD in the main git-repo folder)
+```
+conda activate <path_of_new_conda-venv>
+```
+```
+pip install -r requirements.txt
+```
+
+### To create requirements.txt
+```buildoutcfg
+pip freeze > requirements.txt
+```
+
+## Initialize Your Own Git Repo
+```
+rm -rf .git
+
+git init
+git add .
+
+git commit -m "first commit"
+git branch -M main
+
+git remote add origin <github_url>
+git push -u origin main
+```
+
+## To update your Modifications
+```
+git add .
+git commit -m "proper message"
+git push 
+```
+
+## Remove Py-Cache:
+```
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+```
+
+
+# Build Local Docker Image:
+
+## Docker Login:
+```
+docker login -u $DOCKERHUB_USER -p $DOCKER_HUB_PASSWORD_USER docker.io
+```
 
 ## Create a file "Dockerfile" with below content
 
@@ -86,12 +144,33 @@ ENTRYPOINT [ "python" ]
 CMD [ "main.py" ]
 ```
 
+## Build Docker Image:
+```
+docker build -t <docker_image_name>:latest .
+```
+
+## See Docker Images:
+```
+docker images
+```
+
+## Run Image on local.:
+```
+docker run -p 5000:5000 <docker_image_name>
+```
+
+# CircleCI Deployment:
+
+## Create a account at circle ci
+
+<a href="https://circleci.com/login/">Circle CI Login</a>
+
 ## Create a "Procfile" with following content
 ```
 web: gunicorn main:app
 ```
 
-## create a file ".circleci\config.yml" with following content
+## Create a file ".circleci\config.yml" with following content
 ```
 version: 2.1
 orbs:
@@ -169,61 +248,25 @@ workflows:
               only:
                 - main
 ```
-## to create requirements.txt
 
-```buildoutcfg
-pip freeze>requirements.txt
-```
+## Configure Circle CI:
 
-## initialize git repo
+Login to CircleCI > Projects > Setup Project (for your Github Repo)
 
-```
-git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin <github_url>
-git push -u origin main
-```
-
-## create a account at circle ci
-
-<a href="https://circleci.com/login/">Circle CI</a>
-
-## setup your project 
-
-<a href="https://app.circleci.com/projects/github/Avnish327030/setup/"> Setup project </a>
-
-## Select project setting in CircleCI and below environment variable
-
+Gather Data for Variables:
 ```
 DOCKERHUB_USER
 DOCKER_HUB_PASSWORD_USER
-HEROKU_API_KEY
+HEROKU_API_KEY 
 HEROKU_APP_NAME
 HEROKU_EMAIL_ADDRESS
-DOCKER_IMAGE_NAME=wafercircle3270303
+DOCKER_IMAGE_NAME
 ```
+CicleCI > Projects > (Select Your Project) > Project Settings > Environment Variables > ( Add all above Variables one by one..)
 
 
-## to update the modification
-
-```
-git add .
-git commit -m "proper message"
-git push 
-```
 
 
-## Docker Login:
-```
-docker login -u $DOCKERHUB_USER -p $DOCKER_HUB_PASSWORD_USER docker.io
-```
-
-## Remove Py-Cache:
-```
-find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
-```
     
     
     
