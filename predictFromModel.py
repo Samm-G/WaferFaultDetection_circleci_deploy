@@ -59,6 +59,3 @@ class prediction:
             raise ex
         return path, result.head().to_json(orient="records")
 
-
-
-

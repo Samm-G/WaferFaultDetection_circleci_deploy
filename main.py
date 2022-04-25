@@ -19,17 +19,40 @@ app = Flask(__name__)
 dashboard.bind(app)
 CORS(app)
 
+### ================== ###
+## PARAMS
 
+training_batch_folder_path = "Training_Batch_Files"
+
+### ================== ###
+
+# Home Route..
 @app.route("/", methods=['GET'])
 @cross_origin()
 def home():
+    """ '/' route for application
+    
+    methods=['GET']
+
+    :return: render_template()
+    """
+
     return render_template('index.html')
 
-
+# Prediction..
 @app.route("/predict", methods=['POST'])
 @cross_origin()
 def predictRouteClient():
+    """'/predict' route for application
+
+    methods=['POST']
+
+    :return: Response Object
+    :rtype: Flask Response Object
+    """
+
     try:
+        # For Testing Through Postman.
         if request.json is not None:
             path = request.json['filepath']
 
@@ -43,6 +66,7 @@ def predictRouteClient():
             path, json_predictions = pred.predictionFromModel()
             return Response("Prediction File created at !!!" + str(path) + 'and few of the predictions are ' + str(
                 json.loads(json_predictions)))
+        # For Testing Through Webapp.
         elif request.form is not None:
             path = request.form['filepath']
 
@@ -65,16 +89,24 @@ def predictRouteClient():
     except Exception as e:
         return Response("Error Occurred! %s" % e)
 
-
+# Training..
 @app.route("/train", methods=['GET', 'POST'])
 @cross_origin()
 def trainRouteClient():
+    """'/train' route for application
+
+    methods=['GET', 'POST']
+
+    :return: Response Object
+    :rtype: Flask Response Object
+    """
+
     try:
         # if request.json['folderPath'] is not None:
-        folder_path = "Training_Batch_Files"
+        
         # path = request.json['folderPath']
-        if folder_path is not None:
-            path = folder_path
+        if training_batch_folder_path is not None:
+            path = training_batch_folder_path
 
             train_valObj = train_validation(path)  # object initialization
 

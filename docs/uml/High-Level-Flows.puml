@@ -49,7 +49,7 @@ Code --> Local_System : Docker-Run
 Code --> Github : Git Push
 Github --> CircleCI_Machine : Push : Fetched By CircleCI
 CircleCI_Machine --> CircleCI_Machine : Dockerize
-CircleCI_Machine --> Docker_Hub : Docker Image
+CircleCI_Machine --> Docker_Hub : Docker Image 
 CircleCI_Machine --> Heroku : Docker Image
 
 /'

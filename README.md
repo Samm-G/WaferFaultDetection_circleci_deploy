@@ -265,7 +265,17 @@ DOCKER_IMAGE_NAME
 CicleCI > Projects > (Select Your Project) > Project Settings > Environment Variables > ( Add all above Variables one by one..)
 
 
+## Datadog Monitoring Setup (Optional)
 
+Add Datadog Buildpack to heroku app..
+
+```
+heroku buildpacks:add https://github.com/DataDog/heroku-buildpack-datadog.git --app=wafer-circleci-deploy
+```
+
+```
+
+```
 
     
     

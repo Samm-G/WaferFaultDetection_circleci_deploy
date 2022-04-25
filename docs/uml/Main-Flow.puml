@@ -1,0 +1,106 @@
+@startuml Flow
+!theme materia
+skinparam defaultFontName Verdana
+skinparam componentStyle rectangle
+
+allow_mixing
+
+' (Alt+D to Preview in VSCode..)
+
+/'
+Check out:
+
+https://github.com/conda/conda/tree/master/docs/source/umls
+https://github.com/plantuml-stdlib/C4-PlantUML 
+
+Full Docs:
+https://plantuml.com/
+for more examples
+
+'/
+
+' TODO: LATER EMBED THIS DIAGRAM IN RST..
+' Check Conda Docs, How they have done this..
+
+'left to right direction
+
+title Main Flow
+
+' skinparam sequenceMessageAlign center
+' Alice -> Bob : Hi
+' Bob -> Alice : This is very long
+/'
+(Code) -> (Local System)
+(Code) -> (Github)
+(Github) -> (CircleCI)
+(CircleCI) -> (Heroku) : Yaml-File
+'/
+'left to right direction
+'top to bottom direction
+/'
+component Model-Training {
+  [START]
+  component "Data Ingestion" {
+    [START] -right-> ["Data for Training (Batches)"]
+    ["Data for Training (Batches)"] -right-> [Data Validation]
+    [Data Validation] -right-> [Data Transformation]
+    [Data Transformation] -right-> [Data Insertion in DB]
+  }
+  [Data Insertion in DB] -down-> [Export Data from DB to CSV for training] : "N-batch files"
+  [Export Data from DB to CSV for training] -left-> [Data_Preprocessing]
+  [Data_Preprocessing] -left-> [Data_Clustering]
+  [Data_Clustering] -left-> [Get Best model for Each Cluster]
+  [Get Best model for Each Cluster] -left-> [Hyperparameter_Tuning]
+  [Hyperparameter_Tuning] -down-> [Model Saving]
+}
+
+[Model Saving] --> [Pushing App To Cloud]
+[Pushing App To Cloud] --> [Application Start]
+
+component "Prediction" as Pred {
+  [Data from client to be Predicted] -right-> [Data_Validation]
+  [Data_Validation] -right-> [Data_Transformation]
+  [Data_Transformation] -right-> [Data Insertion to DB]
+  [Data Insertion to DB] -right-> [Export Data from DB to CSV for prediction]
+  [Export Data from DB to CSV for prediction] -down-> [Data Preproccessing]
+  [Data Preproccessing] -left-> [Data Clustering]
+  [Data Clustering] -left-> [Model Call for Specific Cluster]
+  [Model Call for Specific Cluster] -left-> [Prediction]
+  [Prediction] -left-> [Export Prediction to CSV]
+  [Export Prediction to CSV] -left-> [END]
+}
+'/
+
+
+
+object "Validation" as ValBox {
+  * Read Data
+  * Validation
+  * Transform
+  * Insert
+  * Export CSV
+}
+
+object Training {
+  * Read Training Data
+  * Data Preprocessing
+  * Form Cluster
+  * Selecting Best Model 
+  * Model Tuning
+  * Deploy
+}
+
+object "Prediction" as PredBox {
+  * Validation
+  * Prediction
+    ** Load Model
+    ** Predict
+}
+
+component "Main.py" as mainpy
+
+mainpy --> ValBox
+ValBox --> Training : Validated CSV
+mainpy --> PredBox
+
+@enduml

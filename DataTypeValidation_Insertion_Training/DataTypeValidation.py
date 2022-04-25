@@ -61,6 +61,7 @@ class dBOperation:
                         Revisions: None
 
                         """
+        
         try:
             conn = self.dataBaseConnection(DatabaseName)
             c=conn.cursor()
@@ -80,8 +81,8 @@ class dBOperation:
                 for key in column_names.keys():
                     type = column_names[key]
 
-                    #in try block we check if the table exists, if yes then add columns to the table
-                    # else in catch block we will create the table
+                    # In this try block we check if the table exists, if yes then add columns to the table
+                    # else in catch block we will create the table..
                     try:
                         #cur = cur.execute("SELECT name FROM {dbName} WHERE type='table' AND name='Good_Raw_Data'".format(dbName=DatabaseName))
                         conn.execute('ALTER TABLE Good_Raw_Data ADD COLUMN "{column_name}" {dataType}'.format(column_name=key,dataType=type))
@@ -90,7 +91,7 @@ class dBOperation:
 
 
                 conn.close()
-
+ 
                 file = open("Training_Logs/DbTableCreateLog.txt", 'a+')
                 self.logger.log(file, "Tables created successfully!!")
                 file.close()

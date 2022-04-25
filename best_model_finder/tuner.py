@@ -131,8 +131,10 @@ class Model_Finder:
                                         """
         self.logger_object.log(self.file_object,
                                'Entered the get_best_model method of the Model_Finder class')
-        # create best model for XGBoost
+        
         try:
+            
+            # create best model for XGBoost
             self.xgboost= self.get_best_params_for_xgboost(train_x,train_y)
             self.prediction_xgboost = self.xgboost.predict(test_x) # Predictions using the XGBoost Model
 
@@ -147,7 +149,8 @@ class Model_Finder:
             self.random_forest=self.get_best_params_for_random_forest(train_x,train_y)
             self.prediction_random_forest=self.random_forest.predict(test_x) # prediction using the Random Forest Algorithm
 
-            if len(test_y.unique()) == 1:#if there is only one label in y, then roc_auc_score returns error. We will use accuracy in that case
+            # If there is only one label in y, then roc_auc_score returns error. We will use accuracy in that case
+            if len(test_y.unique()) == 1:
                 self.random_forest_score = accuracy_score(test_y,self.prediction_random_forest)
                 self.logger_object.log(self.file_object, 'Accuracy for RF:' + str(self.random_forest_score))
             else:

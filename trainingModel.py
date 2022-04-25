@@ -78,7 +78,7 @@ class trainModel:
             for i in list_of_clusters:
                 cluster_data=X[X['Cluster']==i] # filter the data for one cluster
 
-                # Prepare the feature and Label columns
+                # Prepare the feature and Label columns, (Drop Clusters column as it's not needed. )
                 cluster_features=cluster_data.drop(['Labels','Cluster'],axis=1)
                 cluster_label= cluster_data['Labels']
 
