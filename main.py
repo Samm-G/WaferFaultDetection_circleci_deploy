@@ -52,10 +52,13 @@ def predictRouteClient():
     """
 
     try:
-        # For Testing Through Postman.
+        # When Testing Through Postman.
         if request.json is not None:
+            # Variables are enclosed in Json
             path = request.json['filepath']
 
+            print("Prediction Path:",path)
+            
             pred_val = pred_validation(path)  # object initialization
 
             pred_val.prediction_validation()  # calling the prediction_validation function
@@ -64,10 +67,15 @@ def predictRouteClient():
 
             # predicting for dataset present in database
             path, json_predictions = pred.predictionFromModel()
+            
             return Response("Prediction File created at !!!" + str(path) + 'and few of the predictions are ' + str(
                 json.loads(json_predictions)))
-        # For Testing Through Webapp.
+            
+            # return Response("Yay Big!")
+
+        # When Testing Through Webapp.
         elif request.form is not None:
+            # Variables are enclosed in Form
             path = request.form['filepath']
 
             pred_val = pred_validation(path)  # object initialization
@@ -78,7 +86,7 @@ def predictRouteClient():
 
             # predicting for dataset present in database
             path, json_predictions = pred.predictionFromModel()
-            return Response("Prediction File created at !!!" + str(path) + 'and few of the predictions are ' + str(
+            return Response("Prediction File created at !!! " + str(path) + ' and few of the predictions are ' + str(
                 json.loads(json_predictions)))
         else:
             print('Nothing Matched')
